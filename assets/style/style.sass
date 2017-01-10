@@ -3,19 +3,38 @@ body
 h1
   font-size: 2em
   text-align: center
-input[type="text"]
+h2, h3
   display: block
+input[type="text"]
+  display: inline
+  margin-left: 10px
   width: 400px
 input[type="button"]
   display: inline-block
   width: 100px
   margin-top: 20px
+label
+  display: block
 ul
   background: pink
   list-style-position: outside
 form
   margin: 20px
   padding: 20px
+.item
+  border: 1px solid black
+  margin: 10px
+  position: relative
+  padding: 10px
+  .button-wrap
+    display: block
+    width: 100px
+    position: absolute
+    right: 10px
+    top: 1px
+  .phone-number
+    font-size: 1.2em
+    font-weight: bold
 li
   border: 1px solid black
   padding: 10px

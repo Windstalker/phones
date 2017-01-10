@@ -10,7 +10,44 @@
   <body>
     <h1>Телефонный справочник</h1>
     <form class="form" name="formone" action="" method="post">
-        <h3>Имя</h3><input type="text" name="name" value="">
+      <table>
+        <tr>
+          <td>
+            <label>Имя</label>
+          </td>
+          <td>
+            <input type="text" name="name" value="">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Фамилия</label>
+          </td>
+          <td>
+            <input type="text" name="lastname" value="">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Номер</label>
+          </td>
+          <td>
+            <input type="text" name="number" value="">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Адрес</label>
+          </td>
+          <td>
+            <input type="text" name="adress" value="">
+          </td>
+        </tr>
+      </table>
+      <input id="addbutton" type="button" name="add" value="Добавить">
+      <input id="changebutton" type="button" name="change" value="Изменить">
+      <input type="reset" name="clear" value="Очистить поля">
+        <!--<h3>Имя</h3><input type="text" name="name" value="">
         <h3>номер</h3><input type="text" name="number" value="">
         <h3>Фамилия</h3><input type="text" name="lastname" value="">
         <h3>Адрес</h3><input type="text" name="adress" value="">
@@ -18,12 +55,9 @@
         <input id="searchbutton" type="button" name="search" value="Искать">
         <input id="deletebutton" type="button" name="delete" value="Удалить">
         <input id="changebutton" type="button" name="change" value="Изменить">
-        <input type="reset" name="name" value="Очистить поля">
+        <input type="reset" name="name" value="Очистить поля">-->
     </form>
     <div class="list">
-      <ul>
-
-      </ul>
     </div>
   </body>
 </html>

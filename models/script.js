@@ -6,8 +6,95 @@ import {
     isExists
 } from './functions';
 
-$(document).ready(() => {
-    let ul = $('ul');
+import {
+    phoneList,
+    tmp
+} from './const';
+import {
+    Contact
+} from './classes';
+
+
+
+$(document).ready(function() {
+    let add = $('#addbutton');
+    let listWrap = $('.list');
+
+    //****************danger***************
+    //localStorage.clear();
+
+      let phoneList = JSON.parse(localStorage.getItem("list")) || phoneList;
+      localStorage.setItem("list", JSON.stringify(phoneList));
+
+
+    add.click(function(event) {
+        let firstName = $("input:text").eq(0).val();
+        let lastName = $("input:text").eq(1).val();
+        let phone = $("input:text").eq(2).val();
+        let adress = $("input:text").eq(3).val();
+        if (firstName !== '' && phone !== '') {
+            phoneList.push(new Contact(firstName, lastName, phone, adress, guid()));
+            localStorage.setItem("list", JSON.stringify(phoneList));
+            showList();
+        } else {
+            alert('name and number are required')
+        }
+    })
+
+
+
+
+    /*add.click((event) => {
+      if (!localStorage.getItem("list")) {
+          localStorage.setItem("list", JSON.stringify(phoneList));
+      }
+      else {
+        let phoneList = JSON.parse(localStorage.getItem("list"));
+      }
+
+
+        let name = $("input:text").eq(0).val();
+        let lastname = $("input:text").eq(1).val();
+        let number = $("input:text").eq(2).val();
+        let adress = $("input:text").eq(3).val();
+        if (name !== '' && number !== '') {
+            phoneList.push({
+                'firstName': name,
+                'phone': number,
+                'lastName': lastname,
+                'adress': adress,
+                'id': guid()
+            });
+            localStorage.setItem("list", JSON.stringify(phoneList));
+        } else {
+            alert('name and number are required')
+        }
+        showList();
+    })*/
+
+
+
+    const showList = () => {
+        let phoneList = JSON.parse(localStorage.getItem("list"));
+        listWrap.text('');
+        for (var i = 0; i < phoneList.length; i++) {
+          let item = $(tmp);
+          item.find('h2').text(phoneList[i].firstName + ' ' + phoneList[i].lastName);
+          item.find('p').text(phoneList[i].phone + ', ' + phoneList[i].adress)
+          listWrap.append(item);
+        }
+        localStorage.setItem("list", JSON.stringify(phoneList));
+    }
+
+    showList();
+
+
+
+
+
+
+
+    /*let ul = $('ul');
     let add = $('#addbutton');
     let search = $('#searchbutton');
     let del = $('#deletebutton');
@@ -135,5 +222,5 @@ $(document).ready(() => {
         } else {
             alert('name and number are required')
         }
-    })
+    })*/
 })

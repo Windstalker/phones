@@ -12,8 +12,12 @@ import rename from 'gulp-rename';
 
 gulp.task('init', () => console.log('Default task called'));
 
+gulp.task('see', () => {
+    console.log('changed');
+})
+
 gulp.task('copy', () => {
-    return gulp.src(['./components/index.html')
+    return gulp.src('./components/index.html')
         .pipe(gulp.dest('./build'));
 });
 
@@ -27,6 +31,7 @@ gulp.task('build', () => {
         .pipe(source('scr.js'))
         .pipe(buffer())
         .pipe(gulp.dest('./build'));
+        console.log('b');
 });
 
 gulp.task('sass', () => {
@@ -40,7 +45,7 @@ gulp.task('default', ['sass', 'copy']);
 gulp.task('watch', () => {
     gulp.watch('./components/index.html', ['copy']);
     gulp.watch('./assets/style/*.sass', ['sass']);
-    gulp.watch('./models/script.js', ['build']);
+    gulp.watch('./models/*.js', ['build']);
 })
 
 //*******************experimental**********************
