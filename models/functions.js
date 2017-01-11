@@ -19,7 +19,3 @@ export function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
 }
-
-export function rety() {
-    return 3;
-}
