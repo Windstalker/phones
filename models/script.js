@@ -14,8 +14,6 @@ import {
     Contact
 } from './classes';
 
-
-
 $(document).ready(function() {
     let add = $('#addbutton');
     let listWrap = $('.list');
@@ -23,9 +21,8 @@ $(document).ready(function() {
     //****************danger***************
     //localStorage.clear();
 
-      let phoneList = JSON.parse(localStorage.getItem("list")) || phoneList;
-      localStorage.setItem("list", JSON.stringify(phoneList));
-
+    let phoneList = JSON.parse(localStorage.getItem("list")) || phoneList;
+    localStorage.setItem("list", JSON.stringify(phoneList));
 
     add.click(function(event) {
         let firstName = $("input:text").eq(0).val();
@@ -37,7 +34,7 @@ $(document).ready(function() {
             localStorage.setItem("list", JSON.stringify(phoneList));
             showList();
         } else {
-            alert('name and number are required')
+            alert('name and number are required');
         }
     })
 
@@ -78,10 +75,10 @@ $(document).ready(function() {
         let phoneList = JSON.parse(localStorage.getItem("list"));
         listWrap.text('');
         for (var i = 0; i < phoneList.length; i++) {
-          let item = $(tmp);
-          item.find('h2').text(phoneList[i].firstName + ' ' + phoneList[i].lastName);
-          item.find('p').text(phoneList[i].phone + ', ' + phoneList[i].adress)
-          listWrap.append(item);
+            let item = $(tmp);
+            item.find('h2').text(phoneList[i].firstName + ' ' + phoneList[i].lastName);
+            item.find('p').text(phoneList[i].phone + ', ' + phoneList[i].adress);
+            listWrap.append(item);
         }
         localStorage.setItem("list", JSON.stringify(phoneList));
     }
