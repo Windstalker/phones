@@ -34,7 +34,7 @@ phoneList.push(new _classes.Contact('Dave', 'Ghrol', '+140684755232', 'LA, Malib
 phoneList.push(new _classes.Contact('Robert', 'Sting', '+140945774132', 'NYC Sunshine avenue 45/7778', '628b7bcf-e80e-ac13-6201-91c59b9cad22'));
 phoneList.push(new _classes.Contact('Melina', 'Hunter', '+140995548232', 'NYC Bronks avenue 178/13', '345ccd60-8da7-c042-cf54-42fce952bfa9'));
 
-var tmp = exports.tmp = '<div class="item"><h2></h2><p class="phone-number"></p><div class="button-wrap"><input id="delete-button" type="button" name="delete" value="Удалить"><input id="change-button" type="button" name="change" value="Изменить"></div></div>';
+var tmp = exports.tmp = '<div class="item"><h2></h2><p class="phone-number"></p><div class="button-wrap"><input class="delete-button" type="button" name="delete" value="Удалить"><input class="change-button" type="button" name="change" value="Изменить"></div></div>';
 
 },{"./classes":1}],3:[function(require,module,exports){
 'use strict';
@@ -79,55 +79,23 @@ var _const = require('./const');
 var _classes = require('./classes');
 
 $(document).ready(function () {
-    var add = $('#addbutton');
     var listWrap = $('.list');
+    var form = $('form');
+    var reset = $("input:reset");
+    var caseChange = null;
 
-    //****************danger***************
-    //localStorage.clear();
+    if (!(0, _functions.isExists)()) {
+        alert('no localStorage');
+    }
 
     var phoneList = JSON.parse(localStorage.getItem("list")) || phoneList;
     localStorage.setItem("list", JSON.stringify(phoneList));
 
-    add.click(function (event) {
-        var firstName = $("input:text").eq(0).val();
-        var lastName = $("input:text").eq(1).val();
-        var phone = $("input:text").eq(2).val();
-        var adress = $("input:text").eq(3).val();
-        if (firstName !== '' && phone !== '') {
-            phoneList.push(new _classes.Contact(firstName, lastName, phone, adress, (0, _functions.guid)()));
-            localStorage.setItem("list", JSON.stringify(phoneList));
-            showList();
-        } else {
-            alert('name and number are required');
-        }
+    reset.click(function () {
+        caseChange = null;
     });
 
-    /*add.click((event) => {
-      if (!localStorage.getItem("list")) {
-          localStorage.setItem("list", JSON.stringify(phoneList));
-      }
-      else {
-        let phoneList = JSON.parse(localStorage.getItem("list"));
-      }
-          let name = $("input:text").eq(0).val();
-        let lastname = $("input:text").eq(1).val();
-        let number = $("input:text").eq(2).val();
-        let adress = $("input:text").eq(3).val();
-        if (name !== '' && number !== '') {
-            phoneList.push({
-                'firstName': name,
-                'phone': number,
-                'lastName': lastname,
-                'adress': adress,
-                'id': guid()
-            });
-            localStorage.setItem("list", JSON.stringify(phoneList));
-        } else {
-            alert('name and number are required')
-        }
-        showList();
-    })*/
-
+    // показать список контактов
     var showList = function showList() {
         var phoneList = JSON.parse(localStorage.getItem("list"));
         listWrap.text('');
@@ -142,129 +110,52 @@ $(document).ready(function () {
 
     showList();
 
-    /*let ul = $('ul');
-    let add = $('#addbutton');
-    let search = $('#searchbutton');
-    let del = $('#deletebutton');
-    let change = $('#changebutton');
-    let phoneList = [];
-    // в тел. справочнике уже есть несколько контактов
-    phoneList.push({
-        id: '395245ea-1651-d00a-266f-16eef8d7bcb0',
-        name: 'Dave',
-        lastname: 'Ghrol',
-        number: '+140684755232',
-        adress: 'LA, Maliboo street 45/9'
-    });
-    phoneList.push({
-        id: '628b7bcf-e80e-ac13-6201-91c59b9cad22',
-        name: 'Robert',
-        lastname: 'Tall',
-        number: '+140945774132',
-        adress: 'NYC Sunshine avenue 45/7778'
-    });
-    phoneList.push({
-        id: '345ccd60-8da7-c042-cf54-42fce952bfa9',
-        name: 'Melina',
-        lastname: 'Heart',
-        number: '+1404578834132',
-        adress: 'NYC Bronks avenue 178/13'
-    });
-    phoneList = JSON.parse(localStorage.getItem("list"));
-    localStorage.setItem("list", JSON.stringify(phoneList));
-     // отображения спаска контактов
-    const showList = () => {
-        ul.text('');
-        let list = JSON.parse(localStorage.getItem("list"));
-        for (var i = 0; i < list.length; i++) {
-            let li = $('<li></li>');
-            let p = $('<p></p>')
-            li.text(list[i].name + ' ' + (list[i].lastname || ''));
-            p.text('Phone: ' + list[i].number + ' Adress: ' + (list[i].adress || 'not added'));
-            li.append(p);
-            ul.append(li);
-        }
-    }
-     if (isExists()) {
-        showList();
-    }
-     // удаление контакта
-    del.click((event) => {
-        let name = $("input:text").eq(0).val();
-        let list = JSON.parse(localStorage.getItem("list"));
-        ul.text('');
-        for (var i = 0; i < list.length; i++) {
-            if (name == list[i].name) {
-                list.splice(i, 1);
-                break;
-            }
-        }
-        localStorage.setItem("list", JSON.stringify(list));
-        showList();
-    })
-     // изменение контакта
-    change.click((event) => {
-        let name = $("input:text").eq(0).val();
-        let number = $("input:text").eq(1).val();
-        let lastname = $("input:text").eq(2).val();
-        let adress = $("input:text").eq(3).val();
-        let list = JSON.parse(localStorage.getItem("list"));
-        ul.text('');
-        for (let i = 0; i < list.length; i++) {
-            if (name == list[i].name) {
-                let newName = prompt('new Name');
-                let newNum = prompt('new number');
-                let newLastname = prompt('new last name');
-                let newAdress = prompt('new adress');
-                list.splice(i, 1, {
-                    'name': newName,
-                    'number': newNum,
-                    'lastname': (newLastname || lastname),
-                    'adress': (newAdress || adress)
-                });
-                break;
-            }
-        }
-        localStorage.setItem("list", JSON.stringify(list));
-        showList();
-    })
-     // поиск контакта
-    search.click((event) => {
-        let name = $("input:text").eq(0).val();
-        let list = JSON.parse(localStorage.getItem("list"));
-        let pattern = new RegExp(name);
-        ul.text('');
-        for (var i = 0; i < list.length; i++) {
-            if (pattern.test(list[i].name)) {
-                let li = $('<li></li>');
-                let p = $('<p></p>')
-                li.text(list[i].name + ' ' + (list[i].lastname || ''));
-                p.text('Phone: ' + list[i].number + ' Adress: ' + (list[i].adress || 'not added'));
-                li.append(p);
-                ul.append(li);
-            }
-        }
-    })
-     // добавление контакта
-    add.click((event) => {
-        let name = $("input:text").eq(0).val();
-        let number = $("input:text").eq(1).val();
-        let lastname = $("input:text").eq(2).val();
-        let adress = $("input:text").eq(3).val();
-        if (name !== '' && number !== '') {
-            phoneList.push({
-                'name': name,
-                'number': number,
-                'lastname': lastname,
-                'adress': adress,
-                'id': guid()
-            });
-            localStorage.setItem("list", JSON.stringify(phoneList));
-            showList();
+    var del = $('.delete-button');
+    var change = $('.change-button');
+
+    // добавить или изменить контакт
+    form.submit(function () {
+        var phoneList = JSON.parse(localStorage.getItem("list"));
+        var firstName = $("input:text").eq(0).val();
+        var lastName = $("input:text").eq(1).val();
+        var phone = $("input:text").eq(2).val();
+        var adress = $("input:text").eq(3).val();
+        if (caseChange) {
+            phoneList.splice(caseChange, 1, new _classes.Contact(firstName, lastName, phone, adress, (0, _functions.guid)()));
         } else {
-            alert('name and number are required')
+            if (firstName !== '' && phone !== '') {
+                phoneList.push(new _classes.Contact(firstName, lastName, phone, adress, (0, _functions.guid)()));
+            } else {
+                alert('name and number are required');
+            }
         }
-    })*/
+        caseChange = null;
+        localStorage.setItem("list", JSON.stringify(phoneList));
+        showList();
+    });
+
+    // удаление контакта
+    del.click(function () {
+        var phoneList = JSON.parse(localStorage.getItem("list"));
+        var index = $(this).parent().parent().index();
+        phoneList.splice(index, 1);
+        localStorage.setItem("list", JSON.stringify(phoneList));
+        showList();
+        location.reload();
+    });
+
+    // изменение контакта
+    change.click(function () {
+        var index = $(this).parent().parent().index();
+        caseChange = index;
+        $("html, body").animate({
+            scrollTop: 0
+        }, "slow");
+        $("input:text").eq(0).val(phoneList[index].firstName);
+        $("input:text").eq(1).val(phoneList[index].lastName);
+        $("input:text").eq(2).val(phoneList[index].phone);
+        $("input:text").eq(3).val(phoneList[index].adress);
+    });
 });
 
 },{"./classes":1,"./const":2,"./functions":3}]},{},[4]);
