@@ -46,7 +46,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.isExists = isExists;
 exports.guid = guid;
-exports.rety = rety;
 function isExists() {
     if (typeof Storage !== 'undefined') {
         return true;
@@ -63,14 +62,10 @@ function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-function rety() {
-    return 3;
-}
-
 },{}],4:[function(require,module,exports){
 'use strict';
 
-// экспортируем внешние функции
+// импортируем внешние функции
 
 var _functions = require('./functions');
 
@@ -81,8 +76,10 @@ var _classes = require('./classes');
 $(document).ready(function () {
     var listWrap = $('.list');
     var form = $('form');
-    var reset = $("input:reset");
+    var reset = $('input:reset');
     var caseChange = null;
+    var del = void 0;
+    var change = void 0;
 
     if (!(0, _functions.isExists)()) {
         alert('no localStorage');
@@ -91,10 +88,6 @@ $(document).ready(function () {
     var phoneList = JSON.parse(localStorage.getItem("list")) || phoneList;
     localStorage.setItem("list", JSON.stringify(phoneList));
 
-    reset.click(function () {
-        caseChange = null;
-    });
-
     // показать список контактов
     var showList = function showList() {
         var phoneList = JSON.parse(localStorage.getItem("list"));
@@ -102,7 +95,7 @@ $(document).ready(function () {
         for (var i = 0; i < phoneList.length; i++) {
             var item = $(_const.tmp);
             item.find('h2').text(phoneList[i].firstName + ' ' + phoneList[i].lastName);
-            item.find('p').text(phoneList[i].phone + ', ' + phoneList[i].adress);
+            item.find('p').text(phoneList[i].phone + ' ' + phoneList[i].adress);
             listWrap.append(item);
         }
         localStorage.setItem("list", JSON.stringify(phoneList));
@@ -110,8 +103,12 @@ $(document).ready(function () {
 
     showList();
 
-    var del = $('.delete-button');
-    var change = $('.change-button');
+    del = $('.delete-button');
+    change = $('.change-button');
+
+    reset.click(function () {
+        caseChange = null;
+    });
 
     // добавить или изменить контакт
     form.submit(function () {
@@ -123,11 +120,7 @@ $(document).ready(function () {
         if (caseChange) {
             phoneList.splice(caseChange, 1, new _classes.Contact(firstName, lastName, phone, adress, (0, _functions.guid)()));
         } else {
-            if (firstName !== '' && phone !== '') {
-                phoneList.push(new _classes.Contact(firstName, lastName, phone, adress, (0, _functions.guid)()));
-            } else {
-                alert('name and number are required');
-            }
+            phoneList.push(new _classes.Contact(firstName, lastName, phone, adress, (0, _functions.guid)()));
         }
         caseChange = null;
         localStorage.setItem("list", JSON.stringify(phoneList));
@@ -137,11 +130,10 @@ $(document).ready(function () {
     // удаление контакта
     del.click(function () {
         var phoneList = JSON.parse(localStorage.getItem("list"));
-        var index = $(this).parent().parent().index();
-        phoneList.splice(index, 1);
+        var self = $(this).parent().parent();
+        phoneList.splice(self.index(), 1);
         localStorage.setItem("list", JSON.stringify(phoneList));
-        showList();
-        location.reload();
+        self.remove();
     });
 
     // изменение контакта
