@@ -9,7 +9,11 @@
   },
   "eslintConfig": {
     "ecnaVersion": "7",
-    "extends": "airbnb-base"
+    "extends": "airbnb-base",
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
   "author": "nikitenkox",
   "license": "ISC",
@@ -26,6 +30,8 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.0.0",
     "gulp-uglify": "^2.0.0",
+    "handlebars": "^4.0.6",
+    "hbsfy": "^2.7.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
